@@ -10,27 +10,14 @@ include_directories(include/)
 add_library(MyMovieListLib STATIC src/my_movie_list.cpp src/cli.cpp)
 
 add_executable(Main src/main.cpp)
-
 target_link_libraries(Main MyMovieListLib)
 
-include(FetchContent)
-
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/refs/heads/main.zip
-)
-
-set(BUILD_GMOCK OFF)
-set(INSTALL_GTEST OFF)
-
-FetchContent_MakeAvailable(googletest)
+find_package(GTest REQUIRED)
 
 enable_testing()
 
 add_executable(Tests tests/test_my_movie_list.cpp)
-
-target_link_libraries(Tests gtest_main MyMovieListLib)
+target_link_libraries(Tests GTest::gtest_main MyMovieListLib)
 
 include(GoogleTest)
-
 gtest_discover_tests(Tests)
