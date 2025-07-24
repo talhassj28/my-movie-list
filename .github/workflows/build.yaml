@@ -1,0 +1,30 @@
+name: build
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y cmake g++
+
+      - name: Create build directory
+        run: mkdir build
+
+      - name: Configure with CMake
+        working-directory: build
+        run: cmake ..
+
+      - name: Build
+        working-directory: build
+        run: cmake --build .
